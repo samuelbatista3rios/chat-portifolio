@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 /** Normaliza links do Giphy para um endpoint de imagem direto confiável */
 function normalizeGif(url: string) {
@@ -39,7 +39,7 @@ type ImgBubbleProps = {
 };
 
 export default function ImgBubble({ src, alt = "imagem", mine }: ImgBubbleProps) {
-  const [imgSrc, setImgSrc] = useState(normalizeGif(src));
+  const imgSrc = useMemo(() => normalizeGif(src), [src]);
   const [failed, setFailed] = useState(false);
 
   return (
