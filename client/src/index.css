@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tema e acento dinâmico */
+:root {
+  color-scheme: dark;
+  --accent: #22d3ee;
+
+  /* 👇 fundo personalizado */
+  --bg-url: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2100&q=80'); /* aurora boreal */
+  --bg-opacity: 0.35; /* 0–1 */
+  --bg-blur: 6px;     /* ajuste se quiser */
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+/* 👇 camada da IMAGEM (embaixo) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2; /* abaixo do overlay */
+  background-image: var(--bg-url);
+  background-size: cover;
+  background-position: center;
+  opacity: var(--bg-opacity);
+  filter: saturate(1.15) contrast(1.05) blur(var(--bg-blur));
+}
+
+/* 👇 camada dos GRADIENTES (em cima da imagem, mas translúcida) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* acima da imagem */
+  background:
+    radial-gradient(1200px 800px at 10% -10%, rgba(14,19,41,.80), transparent),
+    radial-gradient(900px 700px at 85% 0%, rgba(11,16,35,.75), transparent);
+  pointer-events: none;
+}
+/* Scrollbar discreto */
+* { scrollbar-width: thin; scrollbar-color: #1f2a44 transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #1f2a44; border-radius: 999px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+@layer components {
+  .glass { @apply bg-white/5 backdrop-blur-xl border border-white/10; }
+  .card  { @apply glass rounded-2xl shadow-2xl; }
+  .panel { @apply bg-white/5 border border-white/10; }
+  .btn   { @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 transition; }
+  .btn-accent { background: var(--accent); color: #06121f; }
+  .section-title { @apply text-sm uppercase tracking-wide opacity-70; }
+  .subtle-border { @apply border border-white/10; }
+  .input { @apply bg-white/10 border border-white/10 rounded-xl px-3 py-2 outline-none focus:ring-2; }
+  .ring-accent { box-shadow: 0 0 0 2px var(--accent), 0 0 16px color-mix(in oklab, var(--accent) 40%, transparent); }
+}
+
+/* Densidade compacta para mensagens */
+body[data-dense="1"] .msg-bubble { @apply px-3 py-1.5 text-sm; }
+
+/* Avatar com anel */
+.avatar-ring { box-shadow: 0 0 0 2px var(--accent); }
+
+/* Foco */
+:focus-visible { outline: 2px solid color-mix(in oklab, var(--accent) 70%, white 0%); outline-offset: 2px; }
+
+
+/* --- MOBILE HELPERS --- */
+
+/* Aumenta área de toque em botões icônicos */
+.btn-touch {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Respeita a safe-area do iOS no rodapé */
+.safe-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+}
+
+/* Imagens fluidas nas mensagens (mobile) */
+@media (max-width: 767px) {
+  .msg-image {
+    max-width: 80vw;
+    height: auto;
+  }
+}
+
+/* Ajustes de tipografia mobile-first */
+@media (max-width: 767px) {
+  .section-title { font-size: .75rem; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px) scale(.95) }
+  to   { opacity: 1; transform: translateY(0) scale(1) }
+}
