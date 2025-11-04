@@ -7,7 +7,6 @@ import Rooms from "./pages/Rooms";
 import Chat from "./pages/Chat";
 import { useState, useEffect } from "react";
 import SettingsDrawer from "./components/SettingsDrawer";
-import ThreeBackground from './components/ThreeBackground'
 
 import { getSocket } from "./services/socket";
 import { useChat } from "./store/chat";
@@ -67,9 +66,9 @@ export default function App() {
   }, [user?._id, fetchRoomsWithLast, fetchInvites]);
 
   return (
-    <><ThreeBackground />
+    
     <div className="min-h-screen text-white">
-      <ThreeBackground />
+      
       <header className="flex items-center justify-between px-4 h-14 glass sticky top-0 z-10">
         <Link
           to="/"
@@ -134,6 +133,6 @@ export default function App() {
 
       <ToastContainer position="bottom-right" theme="dark" />
     </div>
-    </>
+    
   );
 }
